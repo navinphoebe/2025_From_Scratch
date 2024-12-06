@@ -38,12 +38,12 @@ public class ReverseShooterAndLogCommand extends Command {
   @Override
   public void execute() {
     
-    double distance = -.2 * speedTimer.get();
+    double distance = (m_shooter.getVelocity() / 60) * speedTimer.get() * 2;
+    speedTimer.reset();
+    speedTimer.start();
     addX = distance * Math.sin(Math.PI - Constants.RADIANS_INDEX_NOTE_POSITION);
     addY = distance * Math.cos(Math.PI - Constants.RADIANS_INDEX_NOTE_POSITION);
     NoteVisualizer.notePosition = new Pose3d(NoteVisualizer.notePosition.getX() - addX, NoteVisualizer.notePosition.getY(), NoteVisualizer.notePosition.getZ() - addY, NoteVisualizer.notePosition.getRotation());
-    speedTimer.reset();
-    speedTimer.start();
     NoteVisualizer.logHeldNote();
   }
 

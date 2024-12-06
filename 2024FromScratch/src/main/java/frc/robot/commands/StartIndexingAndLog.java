@@ -37,7 +37,7 @@ public class StartIndexingAndLog extends Command {
   @Override
   public void execute() {
     
-    double distance = m_intake.getWheelVelocity() * speedTimer.get();
+    double distance = (m_intake.getWheelVelocity() / 60) * speedTimer.get();
     addX = distance * Math.sin(Constants.RADIANS_INDEX_NOTE_POSITION);
     addY = distance * Math.cos(Constants.RADIANS_INDEX_NOTE_POSITION);
     NoteVisualizer.notePosition = new Pose3d(NoteVisualizer.notePosition.getX() - addX, NoteVisualizer.notePosition.getY(), NoteVisualizer.notePosition.getZ() + addY, NoteVisualizer.notePosition.getRotation());

@@ -26,16 +26,17 @@ public final class Constants {
   public static final Mode currentMode = Mode.SIM;
   
   public static final double CONTROLLER_DEADBAND_VALUE = .1;
-  public static final double WRIST_RANGE_ACCURACY = .5;
-  public static final double ELBOW_RANGE_ACCURACY = .5;
+  public static final double WRIST_RANGE_ACCURACY = .1;
+  public static final double ELBOW_RANGE_ACCURACY = .1;
   public static final double SHOOTER_TARGET_SPEED_RPM = 95;
- public static final double INTAKE_RAD_PER_MIN = 4;
+ public static final double INTAKE_RAD_PER_MIN = 60;
  public static final double REVERSE_INTAKE_RAD_PER_MIN = -4;
  public static final double WHEEL_CIRCUMFRANCE = Units.inchesToMeters(1.250) * 3.14;
- public static final double RADIANS_INDEX_NOTE_POSITION = 0.75;
- public static final double INDEX_SENSOR_MAX = 0;
+ public static final double RADIANS_INDEX_NOTE_POSITION = .7;
+ public static final double INDEX_SENSOR_MAX = .25;
  public static final double INDEX_SENSOR_MIN = -100;
  public static final double TILTED_NOTE_RADIUS = Units.inchesToMeters(6);
+ public static final double SHOOTER_REVERSE_SPEED_RPM = -30;
   
   public static enum Mode { 
     /** Running on a real robot. */

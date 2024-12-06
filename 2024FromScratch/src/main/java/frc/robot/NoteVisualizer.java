@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ReverseShooterAndLogCommand;
 import frc.robot.commands.StartIndexingAndLog;
-import frc.robot.commands.StopIndexCommand;
+import frc.robot.commands.StopIntakeCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 import java.util.ArrayList;
@@ -37,8 +37,8 @@ public class NoteVisualizer {
   private static Supplier<Rotation2d> armAngleSupplier;
   private static Supplier<Pose3d> armPoseSupplier;
   public static final List<Translation2d> autoNotes = new ArrayList<>();
-  private static boolean hasNote = false;
-  public static Pose3d notePosition = new Pose3d(1, 0, 0, new Rotation3d(0, .5, 0));
+  public static boolean hasNote = false;
+  public static Pose3d notePosition = new Pose3d(.6, 0, 0, new Rotation3d(0, .7, 0));
 
   public static void setPoseSuppliers(Supplier<Pose2d> pose1, Supplier<Rotation2d> pose2, Supplier<Pose3d> armPose) {
     robotPoseSupplier = pose1;

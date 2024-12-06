@@ -24,6 +24,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
+import frc.robot.SimulateModel;
 
 public class WristSubsystem extends SubsystemBase {
   /** Creates a new ElbowSubsystem. */
@@ -85,6 +86,8 @@ public class WristSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    double angle = m_talonFX.getPosition().getValueAsDouble();
+    SimulateModel.setWristAngle(angle);
     if (Robot.isSimulation()) {
       TalonFXSimState talonFXSim = m_talonFX.getSimState();
 

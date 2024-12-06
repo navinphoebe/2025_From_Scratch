@@ -9,8 +9,10 @@ import frc.robot.commands.ElbowGoToPositionCommand;
 import frc.robot.commands.IntakeNoteCommand;
 import frc.robot.commands.RemoveNoteCommand;
 import frc.robot.commands.ReverseShooterAndLogCommand;
+import frc.robot.commands.ReverseShooterCommand;
 import frc.robot.commands.StartIndexingAndLog;
 import frc.robot.commands.StartShooterCommand;
+import frc.robot.commands.StopIntakeCommand;
 import frc.robot.commands.StopShooterCommand;
 import frc.robot.commands.WristDefaultCommand;
 import frc.robot.commands.WristGoToPositionCommand;
@@ -19,6 +21,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.WristSubsystem;
+
+import org.littletonrobotics.junction.Logger;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -46,6 +53,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+    Logger.recordOutput("Pose", new Pose2d());
     configureBindings();
   }
 
@@ -60,16 +68,17 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    m_driverController.a().whileTrue(new ElbowGoToPositionCommand(m_elbow, 5));
+    m_driverController.a().whileTrue(new ElbowGoToPositionCommand(m_elbow, Units.degreesToRotations(-5)));
     m_wrist.setDefaultCommand(new WristDefaultCommand(m_wrist));
-    m_driverController.b().whileTrue(new WristGoToPositionCommand(m_wrist, 10));
+    m_driverController.b().whileTrue(new WristGoToPositionCommand(m_wrist, Units.degreesToRotations(65)));
     m_driverController.x().whileTrue(new StartShooterCommand(m_shooter));
+   // m_driverController.x().onTrue(new InstantCommand(()-> NoteVisualizer.shoot()));
     //m_driverController.y().whileTrue(new IntakeNoteCommand(m_intake));
-    m_driverController.y().onTrue((new IntakeNoteCommand(m_intake)).alongWith(new StartIndexingAndLog(m_intake)));
+    m_driverController.y().whileTrue(new InstantCommand(()-> NoteVisualizer.hasNote = true));
     m_driverController.pov(0).whileTrue(new RemoveNoteCommand(m_intake));
 
-   // new Trigger(() -> NoteVisualizer.hasNote()).onTrue((new IntakeNoteCommand(m_intake)).alongWith(new StartIndexingAndLog()));
-   new Trigger(() -> Rectangle.isNoteInIndexerBox()).whileTrue((new ReverseShooterAndLogCommand(m_shooter)));
+   new Trigger(() -> NoteVisualizer.hasNote()).onTrue((new IntakeNoteCommand(m_intake)).alongWith(new StartIndexingAndLog(m_intake)));
+   new Trigger(() -> Rectangle.isNoteInIndexerBox()).whileTrue((new StopIntakeCommand(m_intake)).alongWith(new ReverseShooterAndLogCommand(m_shooter)).alongWith(new ReverseShooterCommand(m_shooter)));
   }
 
   /**
@@ -81,6 +90,8 @@ public class RobotContainer {
     // An example command will be run in autonomous
     return null;
   }
+
+// IMPORTANT: To run you need " ./gradlew simulateJava"
 
   /*public Command getSwerveDriveCommand() {
     return new DrivetrainDefaultCommand(
